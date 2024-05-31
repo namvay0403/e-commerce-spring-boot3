@@ -28,9 +28,12 @@ public class CartController {
         return "cart";
     }
 
-    @GetMapping("/removeItem/{index}")
-    public String removeItem(@PathVariable int index){
+    @GetMapping("/cart/removeItem/{index}")
+    public String removeItem(@PathVariable int index, Model model){
         GlobalData.cart.remove(index);
+        model.addAttribute("cartCount", GlobalData.cart.size());
+        model.addAttribute("total", GlobalData.cart.stream().mapToDouble(Product::getPrice).sum());
+        model.addAttribute("cart", GlobalData.cart);
         return "redirect:/cart";
     }
 
